@@ -4,18 +4,14 @@ venv/
 # Environment variables
 .env
 
-# Python cache
+venv/
+.venv/
+.env
 __pycache__/
 *.pyc
-
-# Book / private documents
 Documents/
 extracted_text/book.txt
 extracted_text/cleaned_book.txt
 extracted_text/chunks.json
-
-# Generated vector database
 vectorstore/
-
-# Hugging Face cache
 huggingface_cache/
