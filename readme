@@ -1,4 +1,4 @@
-# 📚 Grade 9 Textbook RAG Assistant
+# RAG Assistant
 
 An AI-powered educational assistant that helps Grade 9 students understand their textbooks through an interactive question-answering system using **Retrieval-Augmented Generation (RAG)**.
 
@@ -82,16 +82,6 @@ The application aims to:
 | FAISS | Vector storage and similarity search |
 | Gemini API | Context-based answer generation |
 
-## 📖 Dataset and Document Processing
-
-- **Document:** Grade 9 textbook PDF
-- **Document Length:** 328 pages
-- **Total Text Chunks:** 1,604
-- **Vector Database:** FAISS
-- **Embedding Model:** all-MiniLM-L6-v2
-
-The textbook is converted into smaller text chunks, and embeddings are generated for efficient semantic retrieval.
-
 ## 🔍 How the Application Works
 
 ### 1. Document Indexing
@@ -138,15 +128,3 @@ The application can be evaluated using:
 - Add student-friendly explanations for difficult concepts.
 - Support follow-up questions and conversational learning.
 - Introduce hybrid search and reranking for better retrieval.
-
-## 💡 Expected Outcome
-
-The Grade 9 Textbook RAG Assistant transforms a traditional textbook into an interactive learning resource. It enables students to ask questions, understand concepts, and find relevant textbook information through AI-powered question answering.
-
-**Project Domain:** Generative AI / Natural Language Processing
-
-**Core Concept:** Retrieval-Augmented Generation (RAG)
-
-**Target Users:** Grade 9 Students
-
-**Primary Goal:** Making textbook-based learning interactive, accessible, and easier to understand.
