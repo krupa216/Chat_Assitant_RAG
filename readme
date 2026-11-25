@@ -1,35 +1,36 @@
-# 📚 RAG Research Assistant
+# 📚 Grade 9 Textbook RAG Assistant
 
-An AI-powered Research Assistant that uses **Retrieval-Augmented Generation (RAG)** to answer questions from uploaded research papers, textbooks, and other PDF documents.
+An AI-powered educational assistant that helps Grade 9 students understand their textbooks through an interactive question-answering system using **Retrieval-Augmented Generation (RAG)**.
 
-Instead of generating answers from general knowledge alone, the system retrieves relevant information from the uploaded documents and uses that context to generate accurate, relevant answers with source references.
+Students can ask questions in natural language and receive context-aware answers based on the uploaded textbook PDF. The application retrieves relevant textbook content and generates answers with source references, making learning easier, faster, and more interactive.
 
 ## 🎯 Project Objective
 
-The main objective is to make research and document understanding easier by allowing users to interact with large PDF documents through natural-language questions.
+The primary objective is to build an intelligent learning assistant that allows Grade 9 students to interact with their textbooks instead of manually searching through hundreds of pages.
 
-The system aims to:
-- Reduce the time required to search lengthy documents.
-- Generate context-aware answers from uploaded resources.
-- Provide citations and page references for answers.
-- Reduce hallucinations through context-based generation.
-- Improve the accessibility of academic and research information.
+The application aims to:
+- Help students understand textbook concepts.
+- Provide instant answers to academic questions.
+- Reduce the time spent searching through textbook chapters.
+- Generate answers based on textbook content rather than general assumptions.
+- Provide source references for answer verification.
+- Support self-learning and independent study.
 
 ## ✨ Key Features
 
-- **PDF Processing:** Extracts text from uploaded PDF documents.
-- **Text Chunking:** Splits large documents into smaller, manageable chunks.
-- **Overlapping Chunking:** Maintains contextual continuity between consecutive chunks.
-- **Embedding Generation:** Converts text chunks into numerical vector representations.
-- **Semantic Search:** Retrieves relevant information based on the meaning of user queries.
-- **Context-Aware Responses:** Generates answers using retrieved document content.
-- **Source Citations:** Provides page references to help users verify answers.
-- **Guardrails:** Helps prevent irrelevant queries and unsupported responses.
+- **Textbook PDF Processing:** Extracts text from a 328-page Grade 9 textbook.
+- **Text Chunking:** Divides extracted textbook content into smaller chunks.
+- **Overlapping Chunking:** Maintains contextual continuity between chunks.
+- **Embedding Generation:** Converts textbook content into vector representations.
+- **Semantic Search:** Retrieves relevant textbook passages based on student questions.
+- **Context-Based Answer Generation:** Uses retrieved textbook content to generate answers.
+- **Source Citations:** Provides relevant textbook page references.
+- **Interactive Question Answering:** Allows students to ask multiple questions about textbook topics.
 
 ## 🏗️ System Architecture
 
 ```text
-       Upload PDF Documents
+       Grade 9 Textbook PDF
                 |
                 v
         PDF Text Extraction
@@ -39,32 +40,31 @@ The system aims to:
                 |
                 v
            Text Chunking
-        (1000 Characters)
-        (150 Overlap)
                 |
                 v
        Embedding Generation
                 |
                 v
-        FAISS Vector Database
+         FAISS Vector Store
                 |
                 v
-          User Question
+       Student's Question
                 |
                 v
-        Query Embedding
+         Query Embedding
                 |
                 v
-       Semantic Retrieval
+        Semantic Retrieval
                 |
                 v
-       Retrieved Documents
+       Relevant Textbook
+             Chunks
                 |
                 v
-       Guardrail Validation
+        Context + Prompt
                 |
                 v
-       LLM Answer Generation
+         Gemini LLM
                 |
                 v
        Answer + Citations
@@ -74,96 +74,79 @@ The system aims to:
 
 | Technology | Purpose |
 |---|---|
-| Python | Core development |
-| PyPDF | PDF text extraction |
-| LangChain | RAG pipeline integration |
+| Python | Core application development |
+| PyPDF | Text extraction from textbook PDF |
+| LangChain | RAG pipeline development |
 | Sentence Transformers | Text embedding generation |
 | all-MiniLM-L6-v2 | Embedding model |
-| FAISS | Vector similarity search |
-| Hugging Face | Embedding model ecosystem |
-| Ollama | Local LLM execution |
-| Qwen | Language model for response generation |
+| FAISS | Vector storage and similarity search |
+| Gemini API | Context-based answer generation |
 
-## 🔍 How RAG Works
+## 📖 Dataset and Document Processing
 
-The application follows two major stages.
+- **Document:** Grade 9 textbook PDF
+- **Document Length:** 328 pages
+- **Total Text Chunks:** 1,604
+- **Vector Database:** FAISS
+- **Embedding Model:** all-MiniLM-L6-v2
 
-### 1. Indexing Phase
+The textbook is converted into smaller text chunks, and embeddings are generated for efficient semantic retrieval.
 
-1. Upload PDF documents.
-2. Extract text from the documents.
-3. Clean unnecessary characters and formatting.
-4. Split the extracted text into chunks.
-5. Generate embeddings for each chunk.
-6. Store embeddings and metadata in FAISS.
+## 🔍 How the Application Works
 
-### 2. Retrieval and Generation Phase
+### 1. Document Indexing
 
-1. The user enters a question.
+1. Upload the Grade 9 textbook PDF.
+2. Extract text from all pages.
+3. Preprocess the extracted text.
+4. Split the content into smaller overlapping chunks.
+5. Generate embeddings using Sentence Transformers.
+6. Store the embeddings and associated metadata in FAISS.
+
+### 2. Question Answering
+
+1. A student enters a question.
 2. The question is converted into an embedding.
-3. FAISS searches for semantically similar document chunks.
-4. Relevant chunks are retrieved.
-5. The retrieved context is passed to the language model.
-6. The model generates an answer based on the available context.
-7. The application returns the answer with source references.
+3. FAISS retrieves the most relevant textbook chunks.
+4. The retrieved content is passed to Gemini as context.
+5. Gemini generates an answer based on the retrieved textbook information.
+6. The answer is displayed along with its source page references.
 
 ## 🧩 Chunking Strategy
 
-The project uses chunk-based document processing.
+The application uses overlapping text chunking to divide textbook content into manageable sections.
 
-- Chunk size: 1,000 characters.
-- Chunk overlap: 150 characters.
+Overlapping chunks help preserve contextual information between consecutive sections, ensuring that important concepts are not lost during document splitting.
 
-Overlapping chunking preserves important contextual information between adjacent chunks and reduces the chance of losing meaning when a sentence or concept crosses a chunk boundary.
+## 📊 Evaluation Approach
 
-## 🛡️ Guardrails
+The application can be evaluated using:
 
-The system can use different validation layers to improve response reliability.
-
-**Input Guardrails**
-- Validate empty or invalid queries.
-- Identify irrelevant or unsupported questions.
-- Restrict queries to the research-document domain where appropriate.
-
-**Retrieval Guardrails**
-- Apply similarity thresholds to retrieved chunks.
-- Avoid using irrelevant or low-confidence context.
-
-**Output Guardrails**
-- Instruct the LLM to answer using retrieved context.
-- Avoid generating unsupported information.
-- Return an appropriate response when the answer is unavailable.
-- Include source references for verification.
-
-## 📊 Performance Evaluation
-
-The RAG pipeline can be evaluated using:
-
-| Evaluation Metric | What It Measures |
+| Metric | Purpose |
 |---|---|
-| Precision@K | Relevance of retrieved chunks |
-| Recall@K | Whether relevant information is retrieved |
-| Faithfulness | Whether the answer is supported by the context |
-| Answer Relevance | Whether the response addresses the question |
-| Retrieval Hit Rate | Whether the expected source appears in retrieval results |
+| Retrieval Precision | Measures the relevance of retrieved textbook chunks |
+| Retrieval Recall | Measures whether relevant textbook information is retrieved |
+| Faithfulness | Checks whether answers are supported by textbook content |
+| Answer Relevance | Evaluates whether answers address student questions |
+| Citation Accuracy | Checks whether cited pages support the answers |
 
 ## 🚀 Future Enhancements
 
-- Integrate Supabase for document storage and PostgreSQL-based vector search using pgvector.
-- Support multiple document uploads.
-- Add conversation history and follow-up questions.
-- Improve retrieval using hybrid search and reranking.
-- Add advanced RAG evaluation.
-- Develop a user-friendly web interface.
+- Add support for multiple Grade 9 subjects.
+- Include chapter-wise question answering.
+- Generate practice questions and quizzes.
+- Add student-friendly explanations for difficult concepts.
+- Support follow-up questions and conversational learning.
+- Introduce hybrid search and reranking for better retrieval.
 
 ## 💡 Expected Outcome
 
-The Research Assistant provides an interactive way to explore lengthy academic documents. By combining semantic retrieval with language generation, it helps users find relevant information faster while maintaining traceability through document references.
+The Grade 9 Textbook RAG Assistant transforms a traditional textbook into an interactive learning resource. It enables students to ask questions, understand concepts, and find relevant textbook information through AI-powered question answering.
 
-## 👩‍💻 Project Focus
+**Project Domain:** Generative AI / Natural Language Processing
 
-**Domain:** Artificial Intelligence / Generative AI
+**Core Concept:** Retrieval-Augmented Generation (RAG)
 
-Retrieval-Augmented Generation (RAG)
+**Target Users:** Grade 9 Students
 
-**Primary Goal:** Reliable, context-aware question answering over research documents.
+**Primary Goal:** Making textbook-based learning interactive, accessible, and easier to understand.
