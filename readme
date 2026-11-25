@@ -1,0 +1,169 @@
+# 📚 RAG Research Assistant
+
+An AI-powered Research Assistant that uses **Retrieval-Augmented Generation (RAG)** to answer questions from uploaded research papers, textbooks, and other PDF documents.
+
+Instead of generating answers from general knowledge alone, the system retrieves relevant information from the uploaded documents and uses that context to generate accurate, relevant answers with source references.
+
+## 🎯 Project Objective
+
+The main objective is to make research and document understanding easier by allowing users to interact with large PDF documents through natural-language questions.
+
+The system aims to:
+- Reduce the time required to search lengthy documents.
+- Generate context-aware answers from uploaded resources.
+- Provide citations and page references for answers.
+- Reduce hallucinations through context-based generation.
+- Improve the accessibility of academic and research information.
+
+## ✨ Key Features
+
+- **PDF Processing:** Extracts text from uploaded PDF documents.
+- **Text Chunking:** Splits large documents into smaller, manageable chunks.
+- **Overlapping Chunking:** Maintains contextual continuity between consecutive chunks.
+- **Embedding Generation:** Converts text chunks into numerical vector representations.
+- **Semantic Search:** Retrieves relevant information based on the meaning of user queries.
+- **Context-Aware Responses:** Generates answers using retrieved document content.
+- **Source Citations:** Provides page references to help users verify answers.
+- **Guardrails:** Helps prevent irrelevant queries and unsupported responses.
+
+## 🏗️ System Architecture
+
+```text
+       Upload PDF Documents
+                |
+                v
+        PDF Text Extraction
+                |
+                v
+         Text Preprocessing
+                |
+                v
+           Text Chunking
+        (1000 Characters)
+        (150 Overlap)
+                |
+                v
+       Embedding Generation
+                |
+                v
+        FAISS Vector Database
+                |
+                v
+          User Question
+                |
+                v
+        Query Embedding
+                |
+                v
+       Semantic Retrieval
+                |
+                v
+       Retrieved Documents
+                |
+                v
+       Guardrail Validation
+                |
+                v
+       LLM Answer Generation
+                |
+                v
+       Answer + Citations
+```
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Python | Core development |
+| PyPDF | PDF text extraction |
+| LangChain | RAG pipeline integration |
+| Sentence Transformers | Text embedding generation |
+| all-MiniLM-L6-v2 | Embedding model |
+| FAISS | Vector similarity search |
+| Hugging Face | Embedding model ecosystem |
+| Ollama | Local LLM execution |
+| Qwen | Language model for response generation |
+
+## 🔍 How RAG Works
+
+The application follows two major stages.
+
+### 1. Indexing Phase
+
+1. Upload PDF documents.
+2. Extract text from the documents.
+3. Clean unnecessary characters and formatting.
+4. Split the extracted text into chunks.
+5. Generate embeddings for each chunk.
+6. Store embeddings and metadata in FAISS.
+
+### 2. Retrieval and Generation Phase
+
+1. The user enters a question.
+2. The question is converted into an embedding.
+3. FAISS searches for semantically similar document chunks.
+4. Relevant chunks are retrieved.
+5. The retrieved context is passed to the language model.
+6. The model generates an answer based on the available context.
+7. The application returns the answer with source references.
+
+## 🧩 Chunking Strategy
+
+The project uses chunk-based document processing.
+
+- Chunk size: 1,000 characters.
+- Chunk overlap: 150 characters.
+
+Overlapping chunking preserves important contextual information between adjacent chunks and reduces the chance of losing meaning when a sentence or concept crosses a chunk boundary.
+
+## 🛡️ Guardrails
+
+The system can use different validation layers to improve response reliability.
+
+**Input Guardrails**
+- Validate empty or invalid queries.
+- Identify irrelevant or unsupported questions.
+- Restrict queries to the research-document domain where appropriate.
+
+**Retrieval Guardrails**
+- Apply similarity thresholds to retrieved chunks.
+- Avoid using irrelevant or low-confidence context.
+
+**Output Guardrails**
+- Instruct the LLM to answer using retrieved context.
+- Avoid generating unsupported information.
+- Return an appropriate response when the answer is unavailable.
+- Include source references for verification.
+
+## 📊 Performance Evaluation
+
+The RAG pipeline can be evaluated using:
+
+| Evaluation Metric | What It Measures |
+|---|---|
+| Precision@K | Relevance of retrieved chunks |
+| Recall@K | Whether relevant information is retrieved |
+| Faithfulness | Whether the answer is supported by the context |
+| Answer Relevance | Whether the response addresses the question |
+| Retrieval Hit Rate | Whether the expected source appears in retrieval results |
+
+## 🚀 Future Enhancements
+
+- Integrate Supabase for document storage and PostgreSQL-based vector search using pgvector.
+- Support multiple document uploads.
+- Add conversation history and follow-up questions.
+- Improve retrieval using hybrid search and reranking.
+- Add advanced RAG evaluation.
+- Develop a user-friendly web interface.
+
+## 💡 Expected Outcome
+
+The Research Assistant provides an interactive way to explore lengthy academic documents. By combining semantic retrieval with language generation, it helps users find relevant information faster while maintaining traceability through document references.
+
+## 👩‍💻 Project Focus
+
+**Domain:** Artificial Intelligence / Generative AI
+
+Retrieval-Augmented Generation (RAG)
+
+**Primary Goal:** Reliable, context-aware question answering over research documents.
